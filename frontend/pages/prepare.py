@@ -42,7 +42,7 @@ with col1:
         fps = cap.get(cv2.CAP_PROP_FPS)
         # print(w, h)
 
-        person = np.array(cv2.resize(cv2.imread('streamlit/person.png'), (w, h))) / 255
+        person = np.array(cv2.resize(cv2.imread('./frontend/person.png'), (w, h))) / 255
         person = np.array(person, dtype = 'u1')
 
 

@@ -9,8 +9,8 @@ from tqdm import tqdm
 
 import pandas as pd
 
-from model.face.fer_pl import LightningModel
-from model.face.dataset_pl import testDataset
+from backend.model.face.fer_pl import LightningModel
+from backend.model.face.dataset_pl import testDataset
 
 idx_to_class = {
     0: "angry",

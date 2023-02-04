@@ -17,46 +17,12 @@ import requests
 import pandas as pd
 import streamlit as st
 from google.cloud import storage
-from frontend.utils import upload_video, download_video
+from frontend.utils import upload_video, download_video, video_frame_callback, convert_to_webm
 
 if not "name" in st.session_state.keys():
     st.warning("HEY-I 페이지에서 이름과 번호를 입력하세요")
     st.stop()
 
-########################################################### WebRTC
-def video_frame_callback(frame: av.VideoFrame) -> av.VideoFrame:
-    img = frame.to_ndarray(format="bgr24")
-    return av.VideoFrame.from_ndarray(img, format="bgr24")
-
-
-def convert_to_webm(in_file, video_dir):
-    start = time.process_time()
-    cap = cv2.VideoCapture(in_file)
-    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    fourcc = cv2.VideoWriter_fourcc(*"vp80")
-
-    out = cv2.VideoWriter(
-        video_dir,
-        fourcc,
-        fps,
-        (width, height),
-    )
-    while True:
-        ret, frame = cap.read()
-        if not ret:  # 새로운 프레임을 못받아 왔을 때 braek
-            break
-        out.write(frame)
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            break
-    cap.release()
-    out.release()
-    cv2.destroyAllWindows()
-    end = time.process_time()
-    
-    print(f"Convert Complete: {video_dir} on {end-start}")
 
 
 # BACKEND_FACE = "http://49.50.175.182:30001/face_emotion"

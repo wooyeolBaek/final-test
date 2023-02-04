@@ -10,12 +10,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 
-import backend.model.face.utils.face_recognition_deepface as fr
+#import backend.model.face.utils.face_recognition_deepface as fr
 from backend.model.face.inference_pl import inference
-from backend.model.pose import pose_with_mediapipe as pwm
+#from backend.model.pose import pose_with_mediapipe as pwm
 import backend.model.eye.gaze_tracking.gaze_tracking as gt
 from backend.model.pose.pose_with_mmpose import main
-from backend.utils import upload_video, download_video
+from backend.utils import upload_video, download_video, video_to_frame, add_emotion_on_frame_new, frame_to_video
 from typing import List
 
 app = FastAPI(title="HEY-I", description="This is a demo of HEY-I")
@@ -25,7 +25,6 @@ app = FastAPI(title="HEY-I", description="This is a demo of HEY-I")
 class InferenceFace(BaseModel):
     VIDEO_PATH: str
     SAVED_DIR: str
-
 
 class Item(BaseModel):
     frame_id: List[int]
@@ -43,7 +42,7 @@ def base():
 def save_origin_video(inp: InferenceFace):
     storage_path = inp.VIDEO_PATH
     download_path = inp.SAVED_DIR
-    os.makedirs(os.path.join(*download_path.split("/")[1:-1]), exist_ok=True)
+    os.makedirs("/".join(download_path.split("/")[1:-1]), exist_ok=True)
     download_video(storage_path=storage_path, download_path=download_path)
     print(f"The video was uploaded from {download_path} to {storage_path}")
     return storage_path, download_path
@@ -70,16 +69,16 @@ def get_emotion_df(inp: InferenceFace):
         download_video(storage_path=storage_path, download_path=download_path)
         print(f"The video was uploaded from {download_path} to {storage_path}")
 
-    frames_dir = fr.video_to_frame(VIDEO_PATH, SAVED_DIR)
+    frames_dir = video_to_frame(VIDEO_PATH, SAVED_DIR)
     print("frame_dir:", frames_dir)
 
     output_dict, output_df = inference(
-        32, "./model/face/models/custom_fer_model.ckpt", SAVED_DIR
+        32, "./backend/model/face/models/custom_fer_model.ckpt", SAVED_DIR
     )
     output_df.sort_values(by=["frame"], ignore_index=True, inplace=True)
 
-    rec_image_list = fr.add_emotion_on_frame_new(output_df)
-    saved_video = fr.frame_to_video(rec_image_list, VIDEO_PATH)
+    rec_image_list = add_emotion_on_frame_new(output_df)
+    saved_video = frame_to_video(rec_image_list, VIDEO_PATH)
 
     uploaded_video = os.path.join(*saved_video.split("/")[1:])
     upload_video(saved_video, uploaded_video)
@@ -126,7 +125,7 @@ def get_eye_df(inp: InferenceFace):
         download_video(storage_path=storage_path, download_path=download_path)
         print(f"The video was uploaded from {download_path} to {storage_path}")
 
-    frames_dir = fr.video_to_frame(VIDEO_PATH, SAVED_DIR)
+    frames_dir = video_to_frame(VIDEO_PATH, SAVED_DIR)
     print("frame_dir:", frames_dir)
 
     frames = glob.glob(f"{SAVED_DIR}/*.jpg")
