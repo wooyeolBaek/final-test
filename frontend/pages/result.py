@@ -55,9 +55,6 @@ UPLOAD_REQUEST_DIR = "http://127.0.0.1:8000/upload_predict_video"
 st.set_page_config(layout="wide")
 st.title("HEY-I")
 
-# key 존재 확인
-#assert os.path.exists("./hey-i-375802-e6e402d22694.json"), "Key가 존재하지 않습니다."
-
 if 'result_dir' in st.session_state.keys():
     if os.path.exists(st.session_state.confirm_video):
         st.subheader("면접 영상 분석 결과입니다.")
