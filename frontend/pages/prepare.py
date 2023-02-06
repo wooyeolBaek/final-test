@@ -24,6 +24,7 @@ with col2:
         '''
         )
 
+
 with col1:
 
     stframe = st.empty()
