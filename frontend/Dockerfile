@@ -5,7 +5,7 @@ WORKDIR /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install pip --upgrade && \
+RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 CMD ["python", "main.py"]
