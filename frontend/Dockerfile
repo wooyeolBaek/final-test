@@ -1,5 +1,7 @@
 FROM python:3.8.7-slim-buster
 
+LABEL maintainer="dwybaek7@gmail.com"
+
 COPY . /app
 WORKDIR /app
 ENV PYTHONPATH=/app
