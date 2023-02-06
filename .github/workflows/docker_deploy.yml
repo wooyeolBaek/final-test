@@ -32,12 +32,6 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
 
-    # Model 파일 복사
-    - name: Copy model file
-      run: |
-        cd frontend
-        sh copy_asset.sh
-
     # Docker Image Build
     - name: Build
       run: |-

@@ -2,12 +2,14 @@ FROM python:3.8.7-slim-buster
 
 LABEL maintainer="dwybaek7@gmail.com"
 
-COPY . /app
 WORKDIR /app
+
+COPY . /app
+
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-CMD ["streamlit", "run", "frontend/main.py"]
+CMD ["streamlit", "run", "main.py", "--server.address=0.0.0.0"]
