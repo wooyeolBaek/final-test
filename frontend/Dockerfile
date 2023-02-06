@@ -8,4 +8,4 @@ ENV PYTHONUNBUFFERED=1
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-CMD ["python", "main.py"]
+CMD ["streamlit", "run", "frontend/main.py"]
