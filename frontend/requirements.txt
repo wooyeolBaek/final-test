@@ -23,7 +23,7 @@ sagemaker-training==4.4.1
 seaborn==0.11.2
 streamlit==1.17.0
 streamlit-webrtc==0.44.2
-torchelastic==0.2.1
+#torchelastic==0.2.1
 uvicorn==0.20.0
 webcolors==1.11.1
 xtcocotools==1.13
