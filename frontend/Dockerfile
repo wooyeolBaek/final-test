@@ -5,8 +5,7 @@ WORKDIR /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-#RUN pip install --upgrade pip && \
-#    pip install -r requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 CMD ["streamlit", "run", "frontend/main.py"]
