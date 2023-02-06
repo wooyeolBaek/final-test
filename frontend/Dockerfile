@@ -1,0 +1,11 @@
+FROM python:3.8.5-slim-buster
+
+COPY . /app
+WORKDIR /app
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+RUN pip install pip --upgrade && \
+    pip install -r requirements.txt
+
+CMD ["python", "main.py"]
