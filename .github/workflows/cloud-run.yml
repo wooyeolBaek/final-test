@@ -20,8 +20,8 @@ on:
 name: Cloud Run
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-  SERVICE: final-test
-  REGION: asiaeast3
+  SERVICE: heyi-front
+  REGION: YOUR_SERVICE_REGION
 
 jobs:
   deploy:
@@ -42,8 +42,7 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-        #service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
-        service_account: 'dwybaek7@gmail.com'
+        service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
 
     # Alternative option - authentication via credentials json
     # - id: 'auth'
