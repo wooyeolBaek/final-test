@@ -1,0 +1,113 @@
+# This workflow build and push a Docker container to Google Artifact Registry and deploy it on Cloud Run when a commit is pushed to the "main" branch
+#
+# Overview:
+#
+# 1. Authenticate to Google Cloud
+# 2. Authenticate Docker to Artifact Registry
+# 3. Build a docker container
+# 4. Publish it to Google Artifact Registry
+# 5. Deploy it to Cloud Run
+#
+# To configure this workflow:
+#
+# 1. Ensure the required Google Cloud APIs are enabled:
+#
+#    Cloud Run            run.googleapis.com
+#    Artifact Registry    artifactregistry.googleapis.com
+#
+# 2. Create and configure Workload Identity Federation for GitHub (https://github.com/google-github-actions/auth#setting-up-workload-identity-federation)
+#
+# 3. Ensure the required IAM permissions are granted
+#
+#    Cloud Run
+#      roles/run.admin
+#      roles/iam.serviceAccountUser     (to act as the Cloud Run runtime service account)
+#
+#    Artifact Registry
+#      roles/artifactregistry.admin     (project or repository level)
+#
+#    NOTE: You should always follow the principle of least privilege when assigning IAM roles
+#
+# 4. Create GitHub secrets for WIF_PROVIDER and WIF_SERVICE_ACCOUNT
+#
+# 5. Change the values for the GAR_LOCATION, SERVICE and REGION environment variables (below).
+#
+# NOTE: To use Google Container Registry instead, replace ${{ env.GAR_LOCATION }}-docker.pkg.dev with gcr.io
+#
+# For more support on how to run this workflow, please visit https://github.com/marketplace/actions/deploy-to-cloud-run
+#
+# Further reading:
+#   Cloud Run IAM permissions                 - https://cloud.google.com/run/docs/deploying
+#   Artifact Registry IAM permissions         - https://cloud.google.com/artifact-registry/docs/access-control#roles
+#   Container Registry vs Artifact Registry   - https://cloud.google.com/blog/products/application-development/understanding-artifact-registry-vs-container-registry
+#   Principle of least privilege              - https://cloud.google.com/blog/products/identity-security/dont-get-pwned-practicing-the-principle-of-least-privilege
+
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  PROJECT_ID: "hey-i-375802" # TODO: update Google Cloud project id
+  GAR_LOCATION: "gcr.io/hey-i-375802/heyi-image" # TODO: update Artifact Registry location
+  SERVICE: "heyi-image" # TODO: update Cloud Run service name
+  REGION: "asia-northeast1" # TODO: update Cloud Run service region
+
+jobs:
+  deploy:
+    # Add 'id-token' with the intended permissions for workload identity federation
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      #- name: Google Auth
+      #  id: auth
+      #  uses: 'google-github-actions/auth@v0'
+      #  with:
+      #    token_format: 'access_token'
+      #    workload_identity_provider: '${{ secrets.WIF_PROVIDER }}' # e.g. - projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider
+      #    service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}' # e.g. - my-service-account@my-project.iam.gserviceaccount.com
+
+      # NOTE: Alternative option - authentication via credentials json
+      - name: Google Auth
+        id: auth
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCl2CqWn8bsYddN\npASE2VxgA6m9SvkleLC5+BMmGaLt6DpYzft4XLwpw6iBx1uZsbGHF+5gcWfVADw+\nltSrb8luoTkP0wh5lt7qn4eb/lgM6cshvxJMxr0D/AHmOF/VNlD3D9rKkNB7VfmK\njZt9ECAaoXa7N0IWM9dsukOjssfqUaw8N750ZSv+wK6mOzG0YCswQmUWfzvL/4vS\njs5qJljkRh/Oh6OMvjabIVlY/7a0w3d5IEa9lYctwDCRuQMnkDcYJxnpVulPyNPr\ncK8x/X9GBr2wvwNDopemDewGSVFkd15VsnIcGmchp0y7WpdOe8Nav0ke2ifyqfHW\nzqjZj8n7AgMBAAECggEABnY1Npg0Hnqzcl19JZX4gO8zmmIE8h5ROHW/fUELdZyS\nRWqFLUvjsvbiJmhXm9XuFlbq3Uwd4RE4x7GFyMY6wXo7qG+vCVnFBrw/gub2lE45\nsW9p7Z7it3iGtGsm5L5QikfOXQ0mal/PsMPStp09uvvmjeXZx9auQpjBUOwC2RDU\ngX0hMiI3OxciRm9r8o2oXM4Aff4xgFFk+Khjr7lpVbQSyA0FY0nmUyq5zTLLDrio\nJUa60mdQ1Mr/tSXsd32900/ZDsCiE9vn3PSi3F5R4jGwO1YhUHxTqSdIUf8ASIGn\nrZThSCx5gl+iqiJszYLFpE4WkkIYQ3KP3XsnhBo6xQKBgQDaGkxPsJiaHo3OxoCs\nTGtTcgQwPa1LYDNKLKLVvk2wb5IGZwl8endjQT1FG7mU/bHIiYLsQUYfVdVz/Psg\n5levgrw4AZbCToC1l3Nz5sKE9VpsHfLrFxySYY0QtRksSaqkDpdt7WnYzcebAqqf\nd8vR7/fwE2n0uhKdMMvFHhY9bwKBgQDCqUzC5vJ6yVqwZX+iIardAqFUE6ahOAbg\nWIoJzawjm2k16gtEXWN8rKVffO0UeuUVWkxJrfj2cdMga3lMVSaNZKBUyXRggHTP\nSpC5drkFyvn5JXvGgUZLTCDdmFYp3bNlFnnrw9e8teiDRsoKZGO7+UR6WDd0Loh2\nLeeFN3cONQKBgQCjTu20/dZGEHq+SYQvf0kdwlHAjW4k8nN1JtcGlOg3JFOC18QS\noOCkQUVPaeMb3JoyPkT6AiYvcGXT46lmiRM/J/UnOolYFM/rKOwZ7L/aLpz2N7ac\nsUGDmee2iuO+daqADSz18r8+x1aeivCXV2wWVkigSukbhfhKGy94+X5NoQKBgQC0\nSo+g+Lveg32uYON8q8gP2K7JK0YqjbS4tuhqugZUGE2ytKlo0UIip9im/xKp5EUm\nqLJ9j1dGEhhkL4Zx72+8h1WEEe3qry8BCuPOEqq9NciePFxOd08+0CykcMJlFkRg\nPRgBCCtZSfYnGDpqs5437F/DHM+HmM2k/1EubjejfQKBgQDPTzTZ4jWmUL4DhaQU\nzMKviYkMh6cXoP1facnt6iAAkJ++D7TwiK7Rh2K9gX8WOspDYCpJcD4vkGsJ9Y6I\npdAmwl4/iQorSSwwNsuf9ALZKsOpjy+sKIy4v6dwIY6ZJ79+58z3StSVST90+ip2\ncEvCqKuH352cgELBxh3i+2jEfA==\n-----END PRIVATE KEY-----\n"
+
+      # BEGIN - Docker auth and build (NOTE: If you already have a container image, these Docker steps can be omitted)
+
+      # Authenticate Docker to Google Cloud Artifact Registry
+      - name: Docker Auth
+        id: docker-auth
+        uses: 'docker/login-action@v1'
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+
+      # END - Docker auth and build
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          # NOTE: If using a pre-built image, update the image name here
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
+
+      # If required, use the Cloud Run url output in later steps
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
