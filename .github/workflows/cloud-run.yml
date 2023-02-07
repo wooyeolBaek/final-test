@@ -24,10 +24,10 @@ on:
 
 name: Cloud Run
 env:
-  INSTANCE: heyi-front-server
+  GCE_INSTANCE: heyi-front-server
   PROJECT_ID: heyi-front-test
   SERVICE: heyi-front
-  ZONE: asia-northeast3-a
+  GCE_INSTANCE_ZONE: asia-northeast3-a
   REGION: asia-northeast3
 
 jobs:
@@ -99,9 +99,9 @@ jobs:
     # Deploy : update-container로 업데이트 요청
     - name: Deploy
       run: |-
-        gcloud compute instances update-container ${{ env.INSTANCE }} \
-          --zone ${{ env.ZONE }} \
-          --container-image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+        gcloud compute instances update-container "${{ env.GCE_INSTANCE }}" \
+          --zone "${{ env.GCE_INSTANCE_ZONE }}" \
+          --container-image "gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}"
 
 
 
