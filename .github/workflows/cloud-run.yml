@@ -16,19 +16,19 @@
 # INSTANCE: VM 이름
 # PROJECT_ID: 대시보드에 있음
 # SERVICE: 도커이미지명 -> gcr이랑 프로젝트명 붙이기 전
+name: Cloud Run
 
 on:
   push:
     branches:
     - main
 
-name: Cloud Run
 env:
   GCE_INSTANCE: heyi-front-server
   PROJECT_ID: heyi-front-test
-  SERVICE: heyi-front
+  SERVICE: heyi-front # docker image name
   GCE_INSTANCE_ZONE: asia-northeast3-a
-  REGION: asia-northeast3
+  GCE_INSTANCE_REGION: asia-northeast3
 
 jobs:
   deploy:
@@ -86,7 +86,7 @@ jobs:
     #  uses: google-github-actions/deploy-cloudrun@v0
     #  with:
     #    service: ${{ env.SERVICE }}
-    #    region: ${{ env.REGION }}
+    #    region: ${{ env.GCE_INSTANCE_REGION }}
     #    image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
     #    # NOTE: If using a pre-built image, update the image name here
     #    #image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
@@ -108,7 +108,7 @@ jobs:
     #- name: Deploy to Cloud Run
     #  run: |-
     #    gcloud run deploy ${{ env.SERVICE }} \
-    #      --region ${{ env.REGION }} \
+    #      --region ${{ env.GCE_INSTANCE_REGION }} \
     #      --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} \
     #      --platform "managed" \
     #      --quiet
