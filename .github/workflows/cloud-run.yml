@@ -56,8 +56,6 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
-      run:
-        gcloud services enable containerregistry.googleapis.com
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK
