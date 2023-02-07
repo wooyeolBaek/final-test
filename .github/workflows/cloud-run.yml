@@ -64,12 +64,21 @@ jobs:
         docker build frontend --file frontend/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
 
+    # project 설정
+    - name: Set project
+      run: |
+        gcloud --quiet config set project ${{ env.PROJECT_ID }}
+        gcloud --quiet config set compute/zone ${{ env.ZONE }}
+    
+    
     # Deploy : update-container로 업데이트 요청
     - name: Deploy
       run: |-
         gcloud compute instances update-container ${{ env.INSTANCE }} \
           --zone ${{ env.ZONE }} \
           --container-image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+
+
 
     #- name: Deploy to Cloud Run
     #  run: |-
