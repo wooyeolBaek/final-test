@@ -72,12 +72,13 @@ jobs:
     # project 설정
     - name: Set project
       run: |
-        gcloud projects get-iam-policy ${{ env.PROJECT_ID }}
-        gcloud --quiet config set project ${{ env.PROJECT_ID }}
-        gcloud --quiet config set compute/zone ${{ env.ZONE }}
-        gcloud services enable heyi-front-server
-        gcloud services enable compute
-        gcloud services enable container
+        gcloud services enable containerregistry.googleapis.com
+      # gcloud projects get-iam-policy ${{ env.PROJECT_ID }}
+      # gcloud --quiet config set project ${{ env.PROJECT_ID }}
+      # gcloud --quiet config set compute/zone ${{ env.ZONE }}
+      # gcloud services enable heyi-front-server
+      # gcloud services enable compute
+      # gcloud services enable container
     
     - name: Deploy to Cloud Run
       id: deploy
