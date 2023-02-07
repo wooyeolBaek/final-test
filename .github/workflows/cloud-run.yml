@@ -19,7 +19,7 @@ on:
 
 name: Cloud Run
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  PROJECT_ID: heyi-front-test
   SERVICE: heyi-front
   REGION: asia-northeast3-a
 
