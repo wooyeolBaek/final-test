@@ -56,6 +56,8 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+      run: |
+        gcloud services enable containerregistry.googleapis.com
 
     # Setup gcloud CLI
     - name: Set up Cloud SDK
@@ -70,9 +72,9 @@ jobs:
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
 
     # project 설정
-    - name: Set project
-      run: |
-        gcloud services enable containerregistry.googleapis.com
+    #- name: Set project
+      #run: |
+        #gcloud services enable containerregistry.googleapis.com
       # gcloud projects get-iam-policy ${{ env.PROJECT_ID }}
       # gcloud --quiet config set project ${{ env.PROJECT_ID }}
       # gcloud --quiet config set compute/zone ${{ env.ZONE }}
