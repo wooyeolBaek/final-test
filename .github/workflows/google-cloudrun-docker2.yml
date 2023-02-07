@@ -49,10 +49,10 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: "hey-i-375802" # TODO: update Google Cloud project id
-  GAR_LOCATION: "gcr.io/hey-i-375802/heyi-image" # TODO: update Artifact Registry location
-  SERVICE: "heyi-image" # TODO: update Cloud Run service name
-  REGION: "asia-northeast1" # TODO: update Cloud Run service region
+  PROJECT_ID: heyi-front-test # TODO: update Google Cloud project id
+  GAR_LOCATION: gcr.io/heyi-front-test/heyi-front # TODO: update Artifact Registry location
+  SERVICE: heyi-front # TODO: update Cloud Run service name
+  REGION: asia-northeast3-a # TODO: update Cloud Run service region
 
 jobs:
   deploy:
@@ -79,7 +79,7 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v0'
         with:
-          credentials_json: "final-test/hey-i-375802-658f4fbb1d25.json"
+          credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
 
       # BEGIN - Docker auth and build (NOTE: If you already have a container image, these Docker steps can be omitted)
 
