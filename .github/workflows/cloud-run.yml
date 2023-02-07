@@ -19,9 +19,11 @@ on:
 
 name: Cloud Run
 env:
+  INSTANCE: heyi-front-server
   PROJECT_ID: heyi-front-test
   SERVICE: heyi-front
-  REGION: asia-northeast3-a
+  ZONE: asia-northeast3-a
+  REGION: asia-northeast3
 
 jobs:
   deploy:
@@ -61,10 +63,18 @@ jobs:
       run: |-
         docker build frontend --file frontend/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-    - name: Deploy to Cloud Run
+
+    # Deploy : update-container로 업데이트 요청
+    - name: Deploy
       run: |-
-        gcloud run deploy ${{ env.SERVICE }} \
-          --region ${{ env.REGION }} \
-          --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} \
-          --platform "managed" \
-          --quiet
+        gcloud compute instances update-container ${{ env.INSTANCE }} \
+          --zone ${{ env.ZONE }} \
+          --container-image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+
+    #- name: Deploy to Cloud Run
+    #  run: |-
+    #    gcloud run deploy ${{ env.SERVICE }} \
+    #      --region ${{ env.REGION }} \
+    #      --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} \
+    #      --platform "managed" \
+    #      --quiet
