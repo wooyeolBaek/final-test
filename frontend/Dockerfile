@@ -9,9 +9,9 @@ COPY . /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-EXPOSE 8501
+EXPOSE 8080
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
