@@ -22,7 +22,7 @@ env:
   #PROJECT_ID: ${{ secrets.GCP_PROJECT }}
   PROJECT_ID: heyi-front-test
   SERVICE: heyi-front
-  REGION: YOUR_SERVICE_REGION
+  REGION: asia-northeast3-a
 
 jobs:
   deploy:
@@ -43,7 +43,7 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-        service_account: '447593667713-compute@developer.gserviceaccount.com'
+        service_account: 'heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com'
 
     # Alternative option - authentication via credentials json
     # - id: 'auth'
