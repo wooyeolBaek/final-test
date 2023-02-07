@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # push까지 성공
+
+# INSTANCE: VM 이름
+# PROJECT_ID: 대시보드에 있음
+# SERVICE: 도커이미지명 -> gcr이랑 프로젝트명 붙이기 전
+
 on:
   push:
     branches:
@@ -67,7 +72,7 @@ jobs:
     # project 설정
     - name: Set project
       run: |
-        gcloud projects get-iam-policy [project-id]
+        gcloud projects get-iam-policy ${{ env.PROJECT_ID }}
         gcloud --quiet config set project ${{ env.PROJECT_ID }}
         gcloud --quiet config set compute/zone ${{ env.ZONE }}
         gcloud services enable heyi-front-server
