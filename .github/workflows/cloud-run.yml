@@ -65,13 +65,14 @@ jobs:
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
 
     # project 설정
-    #- name: Set project
-    #  run: |
-    #    gcloud --quiet config set project ${{ env.PROJECT_ID }}
-    #    gcloud --quiet config set compute/zone ${{ env.ZONE }}
-    #    gcloud services enable heyi-front-server
-      #gcloud services enable compute
-      #gcloud services enable container
+    - name: Set project
+      run: |
+        gcloud projects get-iam-policy [project-id]
+        gcloud --quiet config set project ${{ env.PROJECT_ID }}
+        gcloud --quiet config set compute/zone ${{ env.ZONE }}
+        gcloud services enable heyi-front-server
+        gcloud services enable compute
+        gcloud services enable container
     
     - name: Deploy to Cloud Run
       id: deploy
