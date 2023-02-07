@@ -69,8 +69,9 @@ jobs:
       run: |
         gcloud --quiet config set project ${{ env.PROJECT_ID }}
         gcloud --quiet config set compute/zone ${{ env.ZONE }}
-        gcloud services enable compute
-        gcloud services enable container
+        gcloud services enable heyi-front-server
+      #gcloud services enable compute
+      #gcloud services enable container
     
     
     # Deploy : update-container로 업데이트 요청
