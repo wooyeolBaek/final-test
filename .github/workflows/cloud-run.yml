@@ -11,17 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: Cloud Run
 
 on:
   push:
     branches:
     - main
 
+name: Cloud Run
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT }} # heyi-front-test
-  SERVICE: "heyi-front" # 
-  REGION: "asia-northeast3-a"
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  SERVICE: final-test
+  REGION: asiaeast3
 
 jobs:
   deploy:
@@ -37,19 +37,19 @@ jobs:
       uses: actions/checkout@v3
 
     # Configure Workload Identity Federation and generate an access token.
-    #- id: 'auth'
-    #  name: 'Authenticate to Google Cloud'
-    #  uses: 'google-github-actions/auth@v1'
-    #  with:
-    #    workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-    #    service_account: 'heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com'
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+        service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
 
     # Alternative option - authentication via credentials json
-     - id: 'auth'
-       uses: 'google-github-actions/auth@v1'
-       with:
-         credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
-         
+    # - id: 'auth'
+    #   uses: 'google-github-actions/auth@v1'
+    #   with:
+    #     credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
     # Setup gcloud CLI
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
@@ -59,7 +59,7 @@ jobs:
 
     - name: Build and Push Container
       run: |-
-        docker build frontend --file frontend/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+        docker build frontend -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
     - name: Deploy to Cloud Run
       run: |-
