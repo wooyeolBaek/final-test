@@ -30,6 +30,7 @@ env:
   GCE_INSTANCE_ZONE: asia-northeast3-a
   GCE_INSTANCE_REGION: asia-northeast3
 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
