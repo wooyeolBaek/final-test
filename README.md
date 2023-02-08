@@ -1,2 +1,2 @@
 # final-test
-[![Docker Image CI](https://github.com/wooyeolBaek/final-test/actions/workflows/docker-image.yml/badge.svg)](https://github.com/wooyeolBaek/final-test/actions/workflows/docker-image.yml)
+[![Cloud Run](https://github.com/wooyeolBaek/final-test/actions/workflows/cloud-run.yml/badge.svg)](https://github.com/wooyeolBaek/final-test/actions/workflows/cloud-run.yml)
