@@ -46,11 +46,11 @@ jobs:
 
     # Configure Workload Identity Federation and generate an access token.
     - id: 'auth'
-     name: 'Authenticate to Google Cloud'
-     uses: 'google-github-actions/auth@v1'
-     with:
-       workload_identity_provider: 'projects/447593667713/locations/global/workloadIdentityPools/heyi/AWS/nick-yoonjae-cho'
-       service_account: ' heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com' #'my-service-account@my-project.iam.gserviceaccount.com'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/447593667713/locations/global/workloadIdentityPools/heyi/AWS/nick-yoonjae-cho'
+        service_account: ' heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com' #'my-service-account@my-project.iam.gserviceaccount.com'
 
     # Alternative option - authentication via credentials json
     #- id: 'auth'
