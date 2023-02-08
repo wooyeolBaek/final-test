@@ -16,6 +16,6 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 EXPOSE $PORT
-#ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
-CMD streamlit run main.py --server.port=8080
-# --server.address=0.0.0.0 --server.port=$PORT
+ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
+#CMD streamlit run main.py --server.address=0.0.0.0 --server.port=8080
+#ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
