@@ -10,7 +10,6 @@ COPY . /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
