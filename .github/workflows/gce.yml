@@ -21,7 +21,7 @@ on:
 
 env:
   PROJECT_ID: heyi-front-test
-  GCE_INSTANCE: heyi-front-server  # TODO: update to instance name
+  GCE_INSTANCE: heyi-front-server2  # TODO: update to instance name
   GCE_INSTANCE_ZONE: asia-northeast3-a   # TODO: update to instance zone
 
 jobs:
