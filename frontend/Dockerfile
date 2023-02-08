@@ -12,8 +12,7 @@ ENV PYTHONUNBUFFERED=1
 
 
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt \
-    apt-get
+    pip install -r requirements.txt
 
 EXPOSE 8080
 #EXPOSE $PORT
