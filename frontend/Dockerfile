@@ -17,5 +17,5 @@ RUN pip install --upgrade pip && \
 
 EXPOSE $PORT
 #ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
-CMD streamlit run main.py
+CMD streamlit run main.py --server.port=$PORT
 # --server.address=0.0.0.0 --server.port=$PORT
