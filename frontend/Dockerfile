@@ -1,10 +1,10 @@
 FROM python:3.8.7-slim-buster
 
-WORKDIR /app
+WORKDIR /frontend
 
-COPY . /app
+COPY . /frontend
 
-ENV PYTHONPATH=/app
+ENV PYTHONPATH=/frontend
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
