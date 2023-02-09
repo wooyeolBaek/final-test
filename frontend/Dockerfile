@@ -8,7 +8,7 @@ ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx && \
+    libgl1-mesa-glx libglib2.0-0 && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
