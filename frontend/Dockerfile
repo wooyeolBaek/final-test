@@ -7,7 +7,8 @@ COPY . /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-RUN pip install --upgrade pip && \
+RUN apt-get install libgl1-mesa-glx && \
+    pip install --upgrade pip && \
     pip install -r requirements.txt
 
 EXPOSE 8080
