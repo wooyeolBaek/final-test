@@ -7,7 +7,7 @@ COPY . /app
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
-RUN apt-get install libgl1-mesa-glx && \
+RUN apt-get install -y libgl1-mesa-glx && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
