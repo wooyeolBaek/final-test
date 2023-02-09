@@ -13,7 +13,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from google.cloud import storage
-from frontend.utils import upload_video, download_video
+#from frontend.utils import upload_video, download_video
+from utils import upload_video, download_video
 
 
 def vectors2angle(vector1, vector2):

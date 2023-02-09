@@ -17,7 +17,8 @@ import requests
 import pandas as pd
 import streamlit as st
 from google.cloud import storage
-from frontend.utils import upload_video, download_video, video_frame_callback, convert_to_webm
+#from frontend.utils import upload_video, download_video, video_frame_callback, convert_to_webm
+from utils import upload_video, download_video, video_frame_callback, convert_to_webm
 
 if not "name" in st.session_state.keys():
     st.warning("HEY-I 페이지에서 이름과 번호를 입력하세요")
