@@ -20,11 +20,11 @@ on:
     - main
 
 env:
-  GCE_INSTANCE: heyi-front-server
   PROJECT_ID: heyi-front-test
-  SERVICE: heyi-front # docker image name
-  GCE_INSTANCE_ZONE: asia-northeast3-a
+  SERVICE: heyi-front-server-image # docker image name
   GCE_INSTANCE_REGION: asia-northeast3
+  #GCE_INSTANCE_ZONE: asia-northeast3-a
+  #GCE_INSTANCE: heyi-front-server
 
 
 jobs:
