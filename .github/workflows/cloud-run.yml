@@ -46,9 +46,19 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/447593667713/locations/global/workloadIdentityPools/heyi-pool/providers/heyi-provider'
-        service_account: 'heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com
-
+        service_account: 'heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com'
  
+    # Setup gcloud CLI
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Authorize Docker push
+      run: gcloud auth configure-docker
+
+    - name: Build and Push Container
+      run: |-
+        docker build frontend --file frontend/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+        docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
 
 
     - name: Deploy to Cloud Run
