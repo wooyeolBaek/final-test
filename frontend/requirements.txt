@@ -10,3 +10,4 @@ streamlit-nested-layout==0.1.1
 streamlit-on-hover-tabs==1.0.1
 streamlit-webrtc==0.44.2
 uvicorn==0.20.0
+opencv-python==4.7.0.68

@@ -11,11 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# push까지 성공
 
-# INSTANCE: VM 이름
-# PROJECT_ID: 대시보드에 있음
-# SERVICE: 도커이미지명 -> gcr이랑 프로젝트명 붙이기 전
 name: Cloud Run
 
 on:
@@ -52,71 +48,7 @@ jobs:
         workload_identity_provider: 'projects/447593667713/locations/global/workloadIdentityPools/heyi-pool/providers/heyi-provider'
         service_account: 'heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com
 
-' #'my-service-account@my-project.iam.gserviceaccount.com'
-
-    # # Alternative option - authentication via credentials json
-    # - id: 'auth'
-    #   uses: 'google-github-actions/auth@v1'
-    #   with:
-    #     credentials_json: '{
-    #       "type": "service_account",
-    #       "project_id": "heyi-front-test",
-    #       "private_key_id": "a58e8de1d385665741f6ac03c2be5e7f6fbc7b82",
-    #       "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCWhSBkH/nX/37H\nUJbtcpcUt4SSkuEODI3UHemOHngeLi6xLa0Uwu8w/Bm2eL/OtacbVc9afAUm9+/R\n2nBF2UIAMYaAV8AKxEXfvrx81/QUpCsmQV5Ax/3GMCNojwx6QiiKYHnvrS2MZa3p\nF2U+agU0rNHh21kdaOd7ZEEq3J5h1hx2V/WrqEgfSPS+GDQGEQcOINkzR5yw1yoF\nd+XIsFmXJR5noLzU9kF6GDyLOYLYZ97mJqKhpTRRRfp8ZR/mTxKx3Gu39RHHztw2\n+yPhGCmUo51oMh0y2linbX6HjQ815hX9i3lx+WY/AP2qeNKMAxzsH15aw609zh+T\nTfiwB8PLAgMBAAECggEAANoJ/po+6uqTZHmS3dvmA/8TIF56uBf+Aw9Ml06ugpmw\nYRGj7+x/arafRxrt+K53f+IO3FpVnzWB81+udHntZuvCGetqUJNcn8b4uN7YcDVN\ncgDkIOIc+59Z3tJF1o/nmC6eDYnmpVH5AwhxYKiD4dNsMyvlGEa/fLxB0BBlhdW2\ns/MhI7o49TZiH5L0QFvnA+tfWQt4iB2ksEzwSxsyODBYdap58uD+No6cdVd7hoUc\nkG44VQn6mg8V0nBa/+BvxBT47l8dXZHDGUByrZ46wCHrQtnMQuOGCMYhV/jM4trk\nnZLWJz9S/sOcTRdStX7T12da+mgu+v5Sqc7kyvZHuQKBgQDJvya/Dq286lyqEVY9\nEHSD8XLlrhPl6OWkwB/kQQYOLj8xVTkNTkwhkrPWnYTPgJUHBEyCFqxoLFn+K8my\nMWtWA0ZK7zwpreYeF/gN2LAE8F7xNKL/fJ2IhNA3EsiPHbL5YjRIO6B7YacFgn4W\nUTgPZFSYKSmmTnUp0uKnXKz51wKBgQC+/2C6l3Rlb4fhRyTGJPjP/8bzJkF0MA/I\nBcmVFyK9DCuWeDsNjTGc/18AwmwBIItgxauKyNTDD6CZ+2/GBLGeHYzldHGD6yCj\nvb2h7gt+4SmBgUbGiHc2X78UPxJGEat0pXBJpagxTLXuSIvJRx/zf1g/fvjb2NOp\nFyBDz93PLQKBgAMYAFMbuYRVH7in7WegUfkYAcgN5FY5PRRKsfKBIMOk5+kswmQ2\n2CoHouRepAO+mAp0gWvZRymNzI9+QmiOI3Q9Np29j3GgLhA2E+K6ePCKcxpF0V4T\nniLSzpKZoiO3s9/pJp4Y8/wQYkxOVPqoojByPG3c67uWJmvOxRUF8c0fAoGAJIx/\n+RTUbDi8esp/af9XMY5ThuHyMoaj7nXVDlegCScUDDYzrrMvJEjl6CJMQqb0pO8O\nlX8635zU8cJgsDbjuksTVDFFK6ZJ16uOZzdDMeNqauLPJVyl21zVFs2+9HObKLYj\n16QAnHZ+dfuh7EFVBuZ+f6APhRpn3nqTbQaQ/n0CgYAaZPxNzYHhsco8b6OgA8Ez\nVEdTFAbXK8JGikfcG9ni0HxaO0YI9zBj3jw6XoUhIoubiRNoUKDpVU73021wmts8\noSKHQgKCnSzfxLPd5MYr4MYhVZBG1PEVrZrfg34hm21EXEzb4+JshEe/l4/WVjTN\nhmRCUmtpNBi23BQ7Rk6+pA==\n-----END PRIVATE KEY-----\n",
-    #       "client_email": "heyi-front-service-account@heyi-front-test.iam.gserviceaccount.com",
-    #       "client_id": "106003236484167840047",
-    #       "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    #       "token_uri": "https://oauth2.googleapis.com/token",
-    #       "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    #       "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/heyi-front-service-account%40heyi-front-test.iam.gserviceaccount.com"
-    #     }'
  
-    # Setup gcloud CLI
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
-
-    - name: Authorize Docker push
-      run: gcloud auth configure-docker
-
-    - name: Build and Push Container
-      run: |-
-        docker build frontend --file frontend/Dockerfile --tag gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-        docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-
-    # project 설정
-    #- name: Set project
-      #run: |
-        #gcloud services enable containerregistry.googleapis.com
-      # gcloud projects get-iam-policy ${{ env.PROJECT_ID }}
-      # gcloud --quiet config set project ${{ env.PROJECT_ID }}
-      # gcloud --quiet config set compute/zone ${{ env.ZONE }}
-      # gcloud services enable heyi-front-server
-      # gcloud services enable compute
-      # gcloud services enable container
-    
-    # 방법 1
-    #- name: Deploy to Cloud Run
-    #  id: deploy
-    #  uses: google-github-actions/deploy-cloudrun@v0
-    #  with:
-    #    service: ${{ env.SERVICE }}
-    #    region: ${{ env.GCE_INSTANCE_REGION }}
-    #    image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
-    #    # NOTE: If using a pre-built image, update the image name here
-    #    #image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}
-
-    # If required, use the Cloud Run url output in later steps
-    #- name: Show Output
-    #  run: echo ${{ steps.deploy.outputs.url }}
-    
-    # 방법 2
-    # Deploy : update-container로 업데이트 요청
-    #- name: Deploy
-    #  run: |-
-    #    gcloud compute instances update-container "${{ env.GCE_INSTANCE }}" \
-    #      --zone "${{ env.GCE_INSTANCE_ZONE }}" \
-    #      --container-image "gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}"
-
 
 
     - name: Deploy to Cloud Run

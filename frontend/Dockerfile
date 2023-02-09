@@ -1,8 +1,5 @@
 FROM python:3.8.7-slim-buster
 
-#LABEL maintainer="dwybaek7@gmail.com"
-
-
 WORKDIR /app
 
 COPY . /app
@@ -14,7 +11,5 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 EXPOSE 8080
-#EXPOSE $PORT
+
 ENTRYPOINT ["streamlit", "run", "main.py", "--server.port=8080", "--server.address=0.0.0.0"]
-#CMD streamlit run main.py --server.address=0.0.0.0 --server.port=8080
-#ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
